@@ -26,9 +26,9 @@ function SkillVisual({ id }: { id: SkillId }) {
       return (
         <div className="grid grid-cols-4 gap-2">
           {["New Lead", "Responded", "Booked", "Attended"].map((c, i) => (
-            <div key={c} className="rounded-lg bg-white/[0.04] p-2">
+            <div key={c} className="rounded-lg bg-ink/[0.025] p-2">
               <p className="truncate text-[10.5px] text-mist">{c}</p>
-              {Array.from({ length: 3 - Math.min(i, 2) }).map((_, k) => <div key={k} className="mt-1.5 h-4 rounded bg-white/[0.07]" />)}
+              {Array.from({ length: 3 - Math.min(i, 2) }).map((_, k) => <div key={k} className="mt-1.5 h-4 rounded bg-ink/[0.045]" />)}
               {i === 1 && <motion.div className="mt-1.5 h-4 rounded border border-iris/60 bg-iris/25" animate={reduced ? {} : { x: [0, 0, 70, 70], opacity: [1, 1, 0, 0] }} transition={loop(3)} />}
             </div>
           ))}
@@ -37,14 +37,14 @@ function SkillVisual({ id }: { id: SkillId }) {
     case "meta":
       return (
         <div className="grid grid-cols-[1fr_auto] items-center gap-4">
-          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+          <div className="rounded-xl border border-ink/[0.09] bg-ink/[0.025] p-3">
             <p className="text-[11px] text-mist">Lead form</p>
-            {["Name", "Phone", "Email"].map(f => <div key={f} className="mt-2 rounded-md border border-white/10 px-2 py-1 text-[10.5px] text-dim">{f}</div>)}
+            {["Name", "Phone", "Email"].map(f => <div key={f} className="mt-2 rounded-md border border-ink/[0.09] px-2 py-1 text-[10.5px] text-dim">{f}</div>)}
             <div className="mt-2 rounded-md bg-orchid/70 py-1 text-center text-[10.5px] text-void">Submit</div>
           </div>
           <div className="flex flex-col items-center gap-2 text-[10.5px] text-mist">
             {["Pixel", "CAPI"].map((s, i) => (
-              <motion.span key={s} className="rounded-full border border-orchid/40 px-2.5 py-1" animate={reduced ? {} : { boxShadow: ["0 0 0 rgba(232,121,249,0)", "0 0 18px rgba(232,121,249,0.5)", "0 0 0 rgba(232,121,249,0)"] }} transition={{ ...loop(2), delay: i * 0.6 }}>{s}</motion.span>
+              <motion.span key={s} className="rounded-full border border-orchid/40 px-2.5 py-1" animate={reduced ? {} : { boxShadow: ["0 0 0 rgba(192,38,211,0)", "0 0 18px rgba(192,38,211,0.35)", "0 0 0 rgba(192,38,211,0)"] }} transition={{ ...loop(2), delay: i * 0.6 }}>{s}</motion.span>
             ))}
           </div>
         </div>
@@ -52,12 +52,12 @@ function SkillVisual({ id }: { id: SkillId }) {
     case "google":
       return (
         <div className="space-y-2.5">
-          <div className="rounded-full border border-white/10 px-3 py-1.5 text-[11.5px] text-mist">epoxy floor coating near me</div>
+          <div className="rounded-full border border-ink/[0.09] px-3 py-1.5 text-[11.5px] text-mist">epoxy floor coating near me</div>
           <div className="rounded-xl border border-sky/30 bg-sky/[0.06] p-3">
             <p className="text-[10px] font-semibold text-sky">Sponsored</p>
-            <div className="mt-1.5 h-2 w-3/4 rounded bg-white/60" /><div className="mt-1.5 h-1.5 w-full rounded bg-white/15" />
+            <div className="mt-1.5 h-2 w-3/4 rounded bg-ink/35" /><div className="mt-1.5 h-1.5 w-full rounded bg-ink/[0.09]" />
           </div>
-          {[0, 1].map(i => <div key={i} className="px-3"><div className="h-2 w-2/3 rounded bg-white/25" /><div className="mt-1.5 h-1.5 w-full rounded bg-white/10" /></div>)}
+          {[0, 1].map(i => <div key={i} className="px-3"><div className="h-2 w-2/3 rounded bg-ink/[0.12]" /><div className="mt-1.5 h-1.5 w-full rounded bg-ink/[0.07]" /></div>)}
         </div>
       );
     case "seo":
@@ -81,8 +81,8 @@ function SkillVisual({ id }: { id: SkillId }) {
         <div className="flex items-center gap-2">
           {["Landing", "Form", "Thank-you", "CRM"].map((p, i) => (
             <div key={p} className="flex flex-1 items-center gap-2">
-              <motion.div className="flex-1 rounded-lg border border-white/10 bg-white/[0.04] p-2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.12, ease }}>
-                <div className="h-1.5 w-2/3 rounded bg-white/40" /><div className="mt-1.5 h-6 rounded bg-white/[0.06]" />
+              <motion.div className="flex-1 rounded-lg border border-ink/[0.09] bg-ink/[0.025] p-2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.12, ease }}>
+                <div className="h-1.5 w-2/3 rounded bg-ink/25" /><div className="mt-1.5 h-6 rounded bg-ink/[0.045]" />
                 <p className="mt-1.5 truncate text-[10px] text-mist">{p}</p>
               </motion.div>
               {i < 3 && <span className="text-dim">→</span>}
@@ -93,7 +93,7 @@ function SkillVisual({ id }: { id: SkillId }) {
     case "crm":
       return (
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 text-[11px]">
-          <div className="space-y-1.5">{["Google Ads", "Meta Ads", "GBP", "Call"].map(s => <span key={s} className="block rounded-full border border-white/10 px-2.5 py-1 text-mist">{s}</span>)}</div>
+          <div className="space-y-1.5">{["Google Ads", "Meta Ads", "GBP", "Call"].map(s => <span key={s} className="block rounded-full border border-ink/[0.09] px-2.5 py-1 text-mist">{s}</span>)}</div>
           <div className="relative h-px bg-gradient-to-r from-sky/20 to-cyan">
             <motion.span className="absolute -top-1 size-2 rounded-full bg-cyan" animate={reduced ? {} : { left: ["0%", "100%"] }} transition={loop(1.6)} />
           </div>
@@ -106,16 +106,16 @@ function SkillVisual({ id }: { id: SkillId }) {
     case "web":
       return (
         <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1.5 rounded-xl bg-black/30 p-3 font-mono text-[10.5px]">
+          <div className="space-y-1.5 rounded-xl bg-ink/[0.03] p-3 font-mono text-[10.5px]">
             <p><span className="text-orchid">&lt;section</span> <span className="text-sky">class</span>=<span className="text-cyan">"hero"</span><span className="text-orchid">&gt;</span></p>
             <p className="pl-3 text-mist">&lt;h1&gt;…&lt;/h1&gt;</p>
             <p className="pl-3 text-mist">&lt;Form /&gt;</p>
             <p className="text-orchid">&lt;/section&gt;</p>
           </div>
-          <div className="rounded-xl border border-white/10 p-2">
-            <div className="flex gap-1"><span className="size-1.5 rounded-full bg-white/20" /><span className="size-1.5 rounded-full bg-white/20" /></div>
-            <motion.div className="mt-2 h-2 rounded bg-white/50" initial={{ width: "20%" }} animate={{ width: "70%" }} transition={{ duration: 0.8, ease }} />
-            <div className="mt-1.5 h-1.5 w-full rounded bg-white/15" />
+          <div className="rounded-xl border border-ink/[0.09] p-2">
+            <div className="flex gap-1"><span className="size-1.5 rounded-full bg-ink/[0.12]" /><span className="size-1.5 rounded-full bg-ink/[0.12]" /></div>
+            <motion.div className="mt-2 h-2 rounded bg-ink/25" initial={{ width: "20%" }} animate={{ width: "70%" }} transition={{ duration: 0.8, ease }} />
+            <div className="mt-1.5 h-1.5 w-full rounded bg-ink/[0.09]" />
             <div className="mt-2 h-4 w-1/2 rounded bg-iris/60" />
           </div>
         </div>
@@ -165,7 +165,7 @@ export function Skills() {
                     tabIndex={on ? 0 : -1}
                     onClick={() => setUi({ activeSkill: s.id })}
                     data-cursor="hover"
-                    className={`group relative overflow-hidden rounded-2xl border px-4 py-3.5 text-left transition-colors duration-300 ${on ? "border-cyan/40 text-white" : "border-white/[0.08] text-mist hover:border-white/20 hover:text-white"}`}
+                    className={`group relative overflow-hidden rounded-2xl border px-4 py-3.5 text-left transition-colors duration-300 ${on ? "border-cyan/40 text-ink" : "border-ink/[0.09] text-mist hover:border-ink/15 hover:text-ink"}`}
                   >
                     {on && <motion.span layoutId="skill-bg" className="absolute inset-0 bg-gradient-to-br from-cyan/[0.12] to-iris/[0.08]" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
                     <span className="relative flex items-center justify-between gap-2">
@@ -185,7 +185,7 @@ export function Skills() {
                     <span className="font-mono text-xs text-cyan">0{idx + 1} / 0{skills.length}</span>
                   </div>
                   <p className="mt-3 text-[15px] leading-relaxed text-mist">{skill.summary}</p>
-                  <div className="mt-6 rounded-2xl border border-white/[0.07] bg-black/25 p-4"><SkillVisual id={skill.id} /></div>
+                  <div className="mt-6 rounded-2xl border border-ink/[0.09] bg-ink/[0.03] p-4"><SkillVisual id={skill.id} /></div>
                   <ul className="mt-6 flex flex-wrap gap-2">
                     {skill.items.map(it => <li key={it} className="chip">{it}</li>)}
                   </ul>

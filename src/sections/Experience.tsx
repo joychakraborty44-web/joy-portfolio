@@ -24,7 +24,7 @@ export function Experience() {
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] [perspective:900px] [mask-image:linear-gradient(to_top,#000,transparent)]">
         <motion.div
           className="absolute inset-x-[-50%] bottom-[-30%] h-[160%] origin-bottom"
-          style={{ rotateX: gridRot, y: gridY, backgroundImage: "linear-gradient(rgba(129,140,248,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(129,140,248,0.16) 1px, transparent 1px)", backgroundSize: "64px 64px" }}
+          style={{ rotateX: gridRot, y: gridY, backgroundImage: "linear-gradient(rgba(88,80,236,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(88,80,236,0.09) 1px, transparent 1px)", backgroundSize: "64px 64px" }}
         />
       </div>
 
@@ -35,7 +35,7 @@ export function Experience() {
 
         <div ref={ref} className="relative mt-24">
           {/* spine */}
-          <div aria-hidden className="absolute bottom-0 left-[19px] top-0 w-px bg-white/10 md:left-1/2 md:-translate-x-1/2">
+          <div aria-hidden className="absolute bottom-0 left-[19px] top-0 w-px bg-ink/[0.07] md:left-1/2 md:-translate-x-1/2">
             <motion.div className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-cyan via-iris to-orchid" style={{ scaleY: progress }} />
           </div>
 
@@ -46,7 +46,7 @@ export function Experience() {
               return (
                 <li key={e.title} className="relative grid md:grid-cols-2 md:gap-16">
                   <span aria-hidden className="absolute left-[19px] top-6 z-10 -translate-x-1/2 md:left-1/2">
-                    <span className={`block rounded-full border transition-all duration-700 ${on ? "size-4 border-cyan bg-cyan shadow-[0_0_24px_rgba(94,234,212,0.8)]" : "size-3 border-white/30 bg-void"} ${e.milestone && on ? "ring-4 ring-cyan/20" : ""}`} />
+                    <span className={`block rounded-full border transition-all duration-700 ${on ? "size-4 border-cyan bg-cyan shadow-[0_0_0_4px_rgba(8,126,136,0.14)]" : "size-3 border-ink/25 bg-void"} ${e.milestone && on ? "ring-4 ring-cyan/20" : ""}`} />
                   </span>
                   <motion.div
                     className={`pl-12 md:pl-0 ${left ? "md:col-start-1 md:pr-4 md:text-right" : "md:col-start-2 md:pl-4"}`}
@@ -56,7 +56,7 @@ export function Experience() {
                     transition={{ duration: 1, ease }}
                     style={{ transformPerspective: 1000 }}
                   >
-                    <TiltCard max={6} className={`rounded-3xl p-7 transition-shadow duration-700 ${e.milestone ? "glass-strong" : "glass"} ${e.milestone && on ? "shadow-[0_0_80px_-20px_rgba(94,234,212,0.45)]" : ""}`}>
+                    <TiltCard max={6} className={`rounded-3xl p-7 transition-shadow duration-700 ${e.milestone ? "glass-strong" : "glass"} ${e.milestone && on ? "shadow-[0_30px_60px_-30px_rgba(8,126,136,0.35)]" : ""}`}>
                       <div className={`flex flex-wrap items-center gap-3 ${left ? "md:justify-end" : ""}`}>
                         <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan">{e.when}</span>
                         {e.milestone && <span className="rounded-full border border-orchid/40 bg-orchid/10 px-2.5 py-0.5 text-[10.5px] uppercase tracking-[0.14em] text-orchid">Milestone</span>}

@@ -83,7 +83,7 @@ export function About() {
               <ul className="mt-5 space-y-3">
                 {profile.identities.map((id, i) => (
                   <Reveal as="li" key={id} delay={i * 0.05} y={12}>
-                    <span className="flex items-center justify-between border-b border-white/[0.07] pb-3 text-[15px]">
+                    <span className="flex items-center justify-between border-b border-ink/[0.09] pb-3 text-[15px]">
                       {id}<span className="font-mono text-[11px] text-dim">0{i + 1}</span>
                     </span>
                   </Reveal>
@@ -94,9 +94,9 @@ export function About() {
         </div>
 
         {/* journey */}
-        <div className="mt-24 grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] md:grid-cols-3">
+        <div className="mt-24 grid gap-px overflow-hidden rounded-3xl border border-ink/[0.09] bg-ink/[0.045] md:grid-cols-3">
           {JOURNEY.map((j, i) => (
-            <Reveal key={j.k} delay={i * 0.12} className="group relative bg-void/80 p-8 backdrop-blur-xl transition-colors duration-500 hover:bg-white/[0.03]">
+            <Reveal key={j.k} delay={i * 0.12} className="group relative bg-void/80 p-8 backdrop-blur-xl transition-colors duration-500 hover:bg-ink/[0.025]">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan">{j.k}</p>
               <p className="mt-4 text-xl font-medium tracking-tight">{j.t}</p>
               <p className="mt-2 text-[14.5px] leading-relaxed text-mist">{j.d}</p>
@@ -111,7 +111,7 @@ export function About() {
         {[0, 1].map(row => (
           <div key={row} className={`marquee flex w-max gap-3 ${row ? "marquee-reverse" : ""}`} style={{ ["--marquee-duration" as string]: row ? "52s" : "44s" }} aria-hidden={row === 1}>
             {[...tools, ...tools].map((t, i) => (
-              <span key={i} className="rounded-2xl border border-white/[0.08] bg-white/[0.025] px-6 py-4 text-[17px] font-medium tracking-tight text-mist transition-colors hover:border-white/25 hover:text-white">{t}</span>
+              <span key={i} className="rounded-2xl border border-ink/[0.09] bg-ink/[0.025] px-6 py-4 text-[17px] font-medium tracking-tight text-mist transition-colors hover:border-ink/15 hover:text-ink">{t}</span>
             ))}
           </div>
         ))}

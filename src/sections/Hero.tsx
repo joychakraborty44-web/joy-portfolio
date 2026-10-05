@@ -20,7 +20,7 @@ export function Hero() {
   const blur = useTransform(scrollYProgress, [0, 0.8], ["blur(0px)", reduced ? "blur(0px)" : "blur(10px)"]);
 
   return (
-    <section id="hero" ref={ref} className="section-pad relative flex min-h-[100svh] flex-col justify-center pb-28 pt-32 outline-none" aria-label="Introduction">
+    <section id="hero" ref={ref} className="section-pad relative flex min-h-[100svh] flex-col justify-center pb-28 pt-[38svh] outline-none md:pt-32" aria-label="Introduction">
       <motion.div style={{ y, scale, opacity, filter: blur }} className="relative z-10 mx-auto w-full max-w-7xl origin-top-left">
         <motion.div
           className="flex flex-wrap items-center gap-2"
@@ -57,7 +57,7 @@ export function Hero() {
           <Magnetic
             href="#work"
             onClick={e => { e.preventDefault(); scrollToId("work"); }}
-            className="group relative inline-flex items-center overflow-hidden rounded-full bg-white px-7 py-4 text-[15px] font-medium text-void"
+            className="group relative inline-flex items-center overflow-hidden rounded-full bg-ink px-7 py-4 text-[15px] font-medium text-void"
           >
             <span className="relative z-10">View my work</span>
             <svg className="relative z-10 size-4 transition-transform duration-500 group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden><path d="M3 8h10M9 4l4 4-4 4" /></svg>
@@ -65,7 +65,7 @@ export function Hero() {
           <Magnetic
             href="#contact"
             onClick={e => { e.preventDefault(); scrollToId("contact"); }}
-            className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.03] px-7 py-4 text-[15px] font-medium text-ink backdrop-blur transition-colors hover:border-white/35"
+            className="inline-flex items-center rounded-full border border-ink/[0.12] bg-ink/[0.025] px-7 py-4 text-[15px] font-medium text-ink backdrop-blur transition-colors hover:border-ink/25"
           >
             Let's talk
           </Magnetic>
@@ -79,15 +79,15 @@ export function Hero() {
         <ol className="flex flex-wrap items-center gap-x-1 gap-y-2" aria-label="Marketing system stages">
           {systemFlow.map((s, i) => (
             <li key={s} className="flex items-center gap-1">
-              <span className={`rounded-full border px-3 py-1.5 text-[12.5px] transition-all duration-500 ${i === step ? "border-cyan/50 bg-cyan/10 text-white shadow-[0_0_24px_rgba(94,234,212,0.25)]" : "border-white/10 text-mist"}`}>{s}</span>
-              {i < systemFlow.length - 1 && <span aria-hidden className={`h-px w-3 transition-colors duration-500 ${i === step ? "bg-cyan" : "bg-white/15"}`} />}
+              <span className={`rounded-full border px-3 py-1.5 text-[12.5px] transition-all duration-500 ${i === step ? "border-cyan/50 bg-cyan/10 text-ink shadow-[0_8px_20px_-8px_rgba(8,126,136,0.4)]" : "border-ink/[0.09] text-mist"}`}>{s}</span>
+              {i < systemFlow.length - 1 && <span aria-hidden className={`h-px w-3 transition-colors duration-500 ${i === step ? "bg-cyan" : "bg-ink/[0.09]"}`} />}
             </li>
           ))}
         </ol>
         <div className="mt-6 hidden items-center gap-4 lg:flex" aria-hidden>
           <span className="eyebrow">Hover the screens →</span>
           {PANELS.map(p => (
-            <span key={p.id} className={`text-[12.5px] transition-colors ${hoverPanel === p.id ? "text-white" : "text-dim"}`}>{p.label}</span>
+            <span key={p.id} className={`text-[12.5px] transition-colors ${hoverPanel === p.id ? "text-ink" : "text-dim"}`}>{p.label}</span>
           ))}
         </div>
       </motion.div>
@@ -102,7 +102,7 @@ export function Hero() {
         data-cursor="hover"
       >
         <span className="eyebrow">Scroll</span>
-        <span className="relative h-10 w-px overflow-hidden bg-white/10">
+        <span className="relative h-10 w-px overflow-hidden bg-ink/[0.07]">
           <motion.span className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent to-cyan" animate={reduced ? {} : { y: ["-100%", "200%"] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }} />
         </span>
       </motion.button>

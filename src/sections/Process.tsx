@@ -12,11 +12,11 @@ function Stage({ active, setActive, progress }: { active: number; setActive: (i:
   return (
     <div className="relative mx-auto aspect-[16/9] w-full max-w-5xl [perspective:1400px]">
       <motion.div className="absolute inset-0" style={{ transformStyle: "preserve-3d", rotateX: 56, rotateZ: -8 }}>
-        <div className="absolute inset-[6%] rounded-[40px] border border-white/[0.07] bg-[radial-gradient(circle_at_50%_50%,rgba(129,140,248,0.10),transparent_70%)]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
+        <div className="absolute inset-[6%] rounded-[40px] border border-ink/[0.09] bg-[radial-gradient(circle_at_50%_50%,rgba(129,140,248,0.10),transparent_70%)]" style={{ backgroundImage: "linear-gradient(rgba(15,23,42,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.05) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
         <svg viewBox="0 0 1000 560" className="absolute inset-0 h-full w-full" aria-hidden>
-          <path d="M120 400 C 240 400, 260 170, 330 170 S 470 390, 500 390 S 640 170, 670 170 S 800 400, 880 400" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
+          <path d="M120 400 C 240 400, 260 170, 330 170 S 470 390, 500 390 S 640 170, 670 170 S 800 400, 880 400" fill="none" stroke="rgba(15,23,42,0.1)" strokeWidth="3" />
           <motion.path d="M120 400 C 240 400, 260 170, 330 170 S 470 390, 500 390 S 640 170, 670 170 S 800 400, 880 400" fill="none" stroke="url(#pg)" strokeWidth="3" style={{ pathLength: draw }} />
-          <defs><linearGradient id="pg" x1="0" x2="1"><stop offset="0" stopColor="#5eead4" /><stop offset=".5" stopColor="#818cf8" /><stop offset="1" stopColor="#e879f9" /></linearGradient></defs>
+          <defs><linearGradient id="pg" x1="0" x2="1"><stop offset="0" stopColor="#0891b2" /><stop offset=".5" stopColor="#5850ec" /><stop offset="1" stopColor="#c026d3" /></linearGradient></defs>
         </svg>
         {process.map((s, i) => {
           const pos = [[12, 71], [33, 30], [50, 70], [67, 30], [88, 71]][i];
@@ -34,7 +34,7 @@ function Stage({ active, setActive, progress }: { active: number; setActive: (i:
               animate={{ z: on ? 70 : done ? 20 : 0 }}
               transition={{ type: "spring", stiffness: 180, damping: 20 }}
             >
-              <span className={`grid size-24 place-items-center rounded-3xl border text-center transition-all duration-500 ${on ? "border-cyan/60 bg-cyan/15 shadow-[0_0_60px_rgba(94,234,212,0.45)]" : done ? "border-iris/40 bg-iris/10" : "border-white/10 bg-white/[0.04]"}`} style={{ transform: "rotateZ(8deg) rotateX(-56deg)", transformOrigin: "bottom center" }}>
+              <span className={`grid size-24 place-items-center rounded-3xl border text-center transition-all duration-500 ${on ? "border-cyan/50 bg-white shadow-[0_22px_44px_-14px_rgba(8,126,136,0.4)]" : done ? "border-iris/30 bg-[#eef0ff] shadow-[0_10px_24px_-14px_rgba(88,80,236,0.45)]" : "border-ink/[0.08] bg-white shadow-[0_8px_20px_-12px_rgba(16,24,40,0.25)]"}`} style={{ transform: "rotateZ(8deg) rotateX(-56deg)", transformOrigin: "bottom center" }}>
                 <span>
                   <span className="block font-mono text-[11px] text-cyan">{s.n}</span>
                   <span className="mt-1 block text-[14px] font-semibold">{s.title}</span>
@@ -68,13 +68,13 @@ export function Process() {
 
   if (!pinned) {
     return (
-      <section id="process" ref={ref} className="section-pad relative py-32 outline-none" aria-labelledby="process-title">
+      <section id="process" ref={ref} className="band section-pad relative py-32 outline-none" aria-labelledby="process-title">
         <div className="mx-auto max-w-3xl">
           <div id="process-title"><SectionHeading index="07" kicker="Process" title="How I build" accent="a system." /></div>
           <ol className="relative mt-14 space-y-4 before:absolute before:bottom-6 before:left-[27px] before:top-6 before:w-px before:bg-gradient-to-b before:from-cyan before:via-iris before:to-orchid">
             {process.map((p, i) => (
               <Reveal as="li" key={p.n} delay={i * 0.05} className="relative flex gap-5">
-                <span className="relative z-10 grid size-14 shrink-0 place-items-center rounded-2xl border border-white/10 bg-void font-mono text-sm text-cyan">{p.n}</span>
+                <span className="relative z-10 grid size-14 shrink-0 place-items-center rounded-2xl border border-ink/[0.09] bg-void font-mono text-sm text-cyan">{p.n}</span>
                 <div className="glass flex-1 rounded-2xl p-5">
                   <h3 className="text-xl font-semibold">{p.title}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-mist">{p.body}</p>
@@ -89,7 +89,7 @@ export function Process() {
   }
 
   return (
-    <section id="process" ref={ref} className="relative h-[360vh] outline-none" aria-labelledby="process-title">
+    <section id="process" ref={ref} className="band relative h-[360vh] outline-none" aria-labelledby="process-title">
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden section-pad">
         <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[0.8fr_1.4fr]">
           <div>
@@ -105,7 +105,7 @@ export function Process() {
               </AnimatePresence>
             </div>
             <div className="mt-6 flex gap-2" aria-hidden>
-              {process.map((p, i) => <span key={p.n} className={`h-1 rounded-full transition-all duration-500 ${i === active ? "w-10 bg-cyan" : i < active ? "w-4 bg-iris/60" : "w-4 bg-white/15"}`} />)}
+              {process.map((p, i) => <span key={p.n} className={`h-1 rounded-full transition-all duration-500 ${i === active ? "w-10 bg-cyan" : i < active ? "w-4 bg-iris/60" : "w-4 bg-ink/[0.09]"}`} />)}
             </div>
           </div>
           <Stage active={active} setActive={setActive} progress={progress} />

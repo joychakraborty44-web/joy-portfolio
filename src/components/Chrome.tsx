@@ -59,7 +59,7 @@ export function Loader() {
               </motion.p>
             </div>
             <div className="flex w-56 items-center gap-4">
-              <div className="relative h-px flex-1 overflow-hidden bg-white/10">
+              <div className="relative h-px flex-1 overflow-hidden bg-ink/[0.07]">
                 <motion.div className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan via-iris to-orchid" style={{ width: `${count}%` }} />
               </div>
               <span className="w-10 text-right font-mono text-xs tabular-nums text-mist">{String(count).padStart(3, "0")}</span>
@@ -111,7 +111,7 @@ export function Nav() {
           className={`flex w-full max-w-6xl items-center justify-between rounded-2xl px-3 py-2.5 transition-all duration-500 sm:px-4 ${scrolled || open ? "glass-strong" : "border border-transparent"}`}
         >
           <a href="#hero" onClick={e => { e.preventDefault(); go("hero"); }} className="group flex items-center gap-3 rounded-xl px-1" data-cursor="hover">
-            <span className="relative grid size-9 place-items-center rounded-xl border border-white/10 bg-white/5 font-mono text-[12px] font-semibold tracking-wider">
+            <span className="relative grid size-9 place-items-center rounded-xl border border-ink/[0.09] bg-ink/[0.04] font-mono text-[12px] font-semibold tracking-wider">
               <span className="text-gradient">JC</span>
               <span className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan/20 to-orchid/20 opacity-0 transition-opacity group-hover:opacity-100" />
             </span>
@@ -125,11 +125,11 @@ export function Nav() {
                   href={`#${item.id}`}
                   onClick={e => { e.preventDefault(); go(item.id); }}
                   aria-current={active === item.id ? "true" : undefined}
-                  className={`relative block rounded-full px-3.5 py-2 text-[13.5px] transition-colors ${active === item.id ? "text-white" : "text-mist hover:text-white"}`}
+                  className={`relative block rounded-full px-3.5 py-2 text-[13.5px] transition-colors ${active === item.id ? "text-ink" : "text-mist hover:text-ink"}`}
                   data-cursor="hover"
                 >
                   {active === item.id && (
-                    <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full border border-white/10 bg-white/[0.07]" transition={{ type: "spring", stiffness: 380, damping: 32 }} />
+                    <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full border border-ink/[0.09] bg-ink/[0.045]" transition={{ type: "spring", stiffness: 380, damping: 32 }} />
                   )}
                   <span className="relative">{item.label}</span>
                 </a>
@@ -141,20 +141,20 @@ export function Nav() {
             <Magnetic
               href="#contact"
               onClick={e => { e.preventDefault(); go("contact"); }}
-              className="hidden rounded-full bg-white px-5 py-2.5 text-[13.5px] font-medium text-void transition-shadow hover:shadow-[0_0_30px_rgba(129,140,248,0.55)] sm:inline-flex"
+              className="hidden rounded-full bg-ink px-5 py-2.5 text-[13.5px] font-medium text-void transition-shadow hover:shadow-[0_12px_28px_-10px_rgba(88,80,236,0.55)] sm:inline-flex"
             >
               Let's talk
             </Magnetic>
             <button
               type="button"
               onClick={() => setUi({ menuOpen: !open })}
-              className="relative grid size-11 place-items-center rounded-xl border border-white/10 bg-white/5 xl:hidden"
+              className="relative grid size-11 place-items-center rounded-xl border border-ink/[0.09] bg-ink/[0.04] xl:hidden"
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
             >
-              <motion.span className="absolute h-px w-5 bg-white" animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} transition={{ duration: 0.4, ease }} />
-              <motion.span className="absolute h-px w-5 bg-white" animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} transition={{ duration: 0.4, ease }} />
+              <motion.span className="absolute h-px w-5 bg-ink" animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} transition={{ duration: 0.4, ease }} />
+              <motion.span className="absolute h-px w-5 bg-ink" animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} transition={{ duration: 0.4, ease }} />
             </button>
           </div>
         </nav>
@@ -229,9 +229,9 @@ export function Cursor() {
       <motion.div aria-hidden className="pointer-events-none fixed left-0 top-0 z-[90] size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white mix-blend-difference" style={{ x, y }} />
       <motion.div
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[90] grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/40 text-[11px] font-medium uppercase tracking-[0.14em] text-void"
+        className="pointer-events-none fixed left-0 top-0 z-[90] grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-ink/25 text-[11px] font-medium uppercase tracking-[0.14em] text-void"
         style={{ x: rx, y: ry }}
-        animate={{ width: size, height: size, backgroundColor: mode === "view" ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0)", borderColor: mode === "idle" ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.7)" }}
+        animate={{ width: size, height: size, backgroundColor: mode === "view" ? "rgba(20,22,27,0.9)" : "rgba(20,22,27,0)", borderColor: mode === "idle" ? "rgba(20,22,27,0.22)" : "rgba(20,22,27,0.45)" }}
         transition={{ duration: 0.35, ease }}
       >
         {mode === "view" && label}

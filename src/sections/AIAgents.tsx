@@ -5,7 +5,7 @@ import { ease } from "../lib/hooks";
 import { SectionHeading, TiltCard } from "../components/motion";
 
 const STATUS: Record<AgentWork["status"], string> = {
-  Shipped: "border-[#34d399]/40 bg-[#34d399]/10 text-[#6ee7b7]",
+  Shipped: "border-mint/30 bg-mint/[0.08] text-mint",
   "In use": "border-cyan/40 bg-cyan/10 text-cyan",
   Built: "border-amber/40 bg-amber/10 text-amber",
   Exploring: "border-iris/40 bg-iris/10 text-iris",
@@ -19,12 +19,12 @@ function Flow({ work }: { work: AgentWork }) {
   return (
     <div className="relative">
       <ol className="relative grid gap-3 sm:gap-0" style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
-        <span aria-hidden className="absolute left-[8%] right-[8%] top-[22px] hidden h-px bg-white/10 sm:block" />
+        <span aria-hidden className="absolute left-[8%] right-[8%] top-[22px] hidden h-px bg-ink/[0.07] sm:block" />
         {!reduced && (
           <motion.span
             aria-hidden
             key={work.id}
-            className="absolute top-[19px] hidden size-[7px] rounded-full bg-cyan shadow-[0_0_14px_rgba(94,234,212,0.9)] sm:block"
+            className="absolute top-[19px] hidden size-[7px] rounded-full bg-cyan shadow-[0_0_10px_rgba(8,126,136,0.55)] sm:block"
             initial={{ left: "8%" }}
             animate={{ left: ["8%", "92%"] }}
             transition={{ duration: n * 0.55, repeat: Infinity, ease: "linear", repeatDelay: 0.4 }}
@@ -41,7 +41,7 @@ function Flow({ work }: { work: AgentWork }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease, delay: i * 0.07 }}
             >
-              <span className={`relative z-10 grid size-11 shrink-0 place-items-center rounded-2xl border font-mono text-[11px] ${parallel ? "border-cyan/50 bg-cyan/10 text-cyan" : "border-white/12 bg-[#0d0f18] text-mist"}`}>
+              <span className={`relative z-10 grid size-11 shrink-0 place-items-center rounded-2xl border font-mono text-[11px] ${parallel ? "border-cyan/50 bg-cyan/10 text-cyan" : "border-ink/10 bg-white text-mist shadow-sm"}`}>
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="mt-2.5 px-1 text-[12px] leading-tight text-ink/85 max-sm:mt-0">{stage}</span>
@@ -83,8 +83,8 @@ function CountUp({ value }: { value: string }) {
 function Terminal({ work }: { work: AgentWork }) {
   const reduced = useReducedMotion();
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/45 font-mono text-[12px] leading-relaxed">
-      <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-2.5">
+    <div className="overflow-hidden rounded-2xl border border-ink/[0.09] bg-ink/[0.03] font-mono text-[12px] leading-relaxed">
+      <div className="flex items-center gap-1.5 border-b border-ink/[0.09] px-4 py-2.5">
         <span className="size-2 rounded-full bg-[#f87171]/70" /><span className="size-2 rounded-full bg-amber/70" /><span className="size-2 rounded-full bg-[#34d399]/70" />
         <span className="ml-2 text-[11px] text-dim">claude-code · {work.type.toLowerCase()}</span>
       </div>
@@ -92,7 +92,7 @@ function Terminal({ work }: { work: AgentWork }) {
         {work.log.map((line, i) => (
           <motion.p
             key={line}
-            className={line.startsWith(">") ? "text-cyan" : line.startsWith("✗") ? "text-orchid" : line.startsWith("✓") || /Submitted|pushed/.test(line) ? "text-[#6ee7b7]" : "text-mist"}
+            className={line.startsWith(">") ? "text-cyan" : line.startsWith("✗") ? "text-orchid" : line.startsWith("✓") || /Submitted|pushed/.test(line) ? "text-mint" : "text-mist"}
             initial={reduced ? false : { opacity: 0, x: -6 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: reduced ? 0 : 0.25 + i * 0.32 }}
@@ -122,8 +122,8 @@ export function AIAgents() {
   };
 
   return (
-    <section id="agents" className="section-pad relative overflow-hidden py-32 outline-none md:py-44" aria-labelledby="agents-title">
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/3 size-[60vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(94,234,212,0.08),transparent_60%)]" />
+    <section id="agents" className="band section-pad relative overflow-hidden py-32 outline-none md:py-44" aria-labelledby="agents-title">
+      <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/3 size-[60vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(88,80,236,0.07),transparent_60%)]" />
       <div className="relative mx-auto max-w-7xl">
         <div id="agents-title">
           <SectionHeading index="03" kicker="AI agents & automation" title="Agents that build, test" accent="and troubleshoot." sub="How I use Claude Code day to day — real agent workflows, each with an honest status." />
@@ -144,13 +144,13 @@ export function AIAgents() {
                   tabIndex={on ? 0 : -1}
                   onClick={() => setActiveId(a.id)}
                   data-cursor="hover"
-                  className={`group relative overflow-hidden rounded-2xl border p-4 text-left transition-colors duration-300 ${on ? "border-cyan/40" : "border-white/[0.08] hover:border-white/20"}`}
+                  className={`group relative overflow-hidden rounded-2xl border p-4 text-left transition-colors duration-300 ${on ? "border-cyan/40" : "border-ink/[0.09] hover:border-ink/15"}`}
                 >
                   {on && <motion.span layoutId="agent-bg" className="absolute inset-0 bg-gradient-to-br from-cyan/[0.11] via-iris/[0.06] to-transparent" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
                   <span className="relative flex items-start justify-between gap-3">
                     <span>
                       <span className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-dim">{a.type}</span>
-                      <span className={`mt-1 block text-[15.5px] font-medium ${on ? "text-white" : "text-mist group-hover:text-white"}`}>{a.title}</span>
+                      <span className={`mt-1 block text-[15.5px] font-medium ${on ? "text-ink" : "text-mist group-hover:text-ink"}`}>{a.title}</span>
                     </span>
                     <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10.5px] ${STATUS[a.status]}`}>{a.status}</span>
                   </span>
@@ -178,7 +178,7 @@ export function AIAgents() {
                     <span className={`rounded-full border px-3 py-1 text-[12px] ${STATUS[work.status]}`}>{work.status}</span>
                   </div>
 
-                  <div className="rounded-2xl border border-white/[0.07] bg-black/25 p-5">
+                  <div className="rounded-2xl border border-ink/[0.09] bg-ink/[0.03] p-5">
                     <p className="eyebrow mb-5">Workflow</p>
                     <Flow work={work} />
                   </div>
@@ -187,7 +187,7 @@ export function AIAgents() {
                     <div className="grid content-start gap-3">
                       <div className="grid grid-cols-3 gap-3">
                         {work.facts.map(f => (
-                          <div key={f.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
+                          <div key={f.label} className="rounded-2xl border border-ink/[0.09] bg-ink/[0.025] p-4">
                             <p className="text-[clamp(1.2rem,2vw,1.7rem)] font-semibold tracking-tight"><CountUp value={f.value} /></p>
                             <p className="mt-1 text-[11.5px] leading-snug text-dim">{f.label}</p>
                           </div>

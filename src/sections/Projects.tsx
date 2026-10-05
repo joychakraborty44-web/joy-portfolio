@@ -21,14 +21,14 @@ function ProjectCard({ p, i, onOpen, wide }: { p: Project; i: number; onOpen: (p
         data-cursor-label="Open"
         aria-label={`Open case study: ${p.client} — ${p.title}`}
         style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: "preserve-3d" }}
-        className="group relative flex h-full w-full flex-col overflow-hidden rounded-[28px] border border-white/10 bg-[#0a0b12] text-left transition-[border-color,box-shadow] duration-500 hover:border-white/20 hover:shadow-[0_40px_120px_-40px_rgba(129,140,248,0.45)]"
+        className="group relative flex h-full w-full flex-col overflow-hidden rounded-[28px] border border-ink/[0.09] bg-white text-left transition-[border-color,box-shadow] duration-500 hover:border-ink/15 shadow-[0_1px_2px_rgba(16,24,40,0.04),0_24px_50px_-30px_rgba(16,24,40,0.25)] hover:shadow-[0_40px_90px_-40px_rgba(88,80,236,0.35)]"
       >
         <TiltContext.Provider value={{ sx: t.sx, sy: t.sy }}>
           <motion.div layoutId={`visual-${p.id}`} className="relative aspect-[16/10] w-full transition-transform duration-700 group-hover:scale-[1.02]">
             <ProjectVisual project={p} />
           </motion.div>
         </TiltContext.Provider>
-        <div className="relative z-10 grid gap-3 border-t border-white/[0.07] bg-[#0a0b12]/95 p-5 md:grid-cols-[1fr_auto] md:items-end md:px-7 md:py-5">
+        <div className="relative z-10 grid gap-3 border-t border-ink/[0.09] bg-white/95 p-5 md:grid-cols-[1fr_auto] md:items-end md:px-7 md:py-5">
           <div>
             <p className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-dim">
               <span style={{ color: p.accent }}>{String(i + 1).padStart(2, "0")}</span>{p.category}
@@ -38,7 +38,7 @@ function ProjectCard({ p, i, onOpen, wide }: { p: Project; i: number; onOpen: (p
           </div>
           <div className="flex flex-wrap gap-2 md:justify-end">
             {(p.metrics ?? []).slice(0, 2).map(m => (
-              <span key={m.label} className="rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-right">
+              <span key={m.label} className="rounded-xl border border-ink/[0.09] bg-ink/[0.025] px-3 py-2 text-right">
                 <span className="block text-[15px] font-semibold tracking-tight">{m.value}</span>
                 <span className="block text-[10.5px] text-dim">{m.label}</span>
               </span>
@@ -90,21 +90,21 @@ function CaseStudy({ p, origin, onClose, onStep }: { p: Project; origin: string;
         ref={panel}
         layoutId={`card-${origin}`}
         transition={{ type: "spring", stiffness: 260, damping: 34, mass: 0.8 }}
-        className="absolute inset-2 overflow-y-auto overscroll-contain rounded-[28px] border border-white/10 bg-[#090a11] sm:inset-4 lg:inset-6"
+        className="absolute inset-2 overflow-y-auto overscroll-contain rounded-[28px] border border-ink/[0.09] bg-white sm:inset-4 lg:inset-6"
         data-lenis-prevent
       >
-        <div className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-white/[0.06] bg-[#090a11]/85 px-5 py-3 backdrop-blur-xl sm:px-8">
+        <div className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-ink/[0.09] bg-white/85 px-5 py-3 backdrop-blur-xl sm:px-8">
           <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-dim"><span style={{ color: p.accent }}>{String(index + 1).padStart(2, "0")}</span> / {String(projects.length).padStart(2, "0")} · {p.category}</p>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => onStep(-1)} className="grid size-10 place-items-center rounded-full border border-white/10 text-mist transition-colors hover:text-white" aria-label="Previous project">←</button>
-            <button type="button" onClick={() => onStep(1)} className="grid size-10 place-items-center rounded-full border border-white/10 text-mist transition-colors hover:text-white" aria-label="Next project">→</button>
-            <button ref={closeRef} type="button" onClick={onClose} className="ml-1 rounded-full bg-white px-4 py-2 text-[13px] font-medium text-void" aria-label="Close case study">Close</button>
+            <button type="button" onClick={() => onStep(-1)} className="grid size-10 place-items-center rounded-full border border-ink/[0.09] text-mist transition-colors hover:text-ink" aria-label="Previous project">←</button>
+            <button type="button" onClick={() => onStep(1)} className="grid size-10 place-items-center rounded-full border border-ink/[0.09] text-mist transition-colors hover:text-ink" aria-label="Next project">→</button>
+            <button ref={closeRef} type="button" onClick={onClose} className="ml-1 rounded-full bg-ink px-4 py-2 text-[13px] font-medium text-void" aria-label="Close case study">Close</button>
           </div>
         </div>
 
         <motion.div layoutId={p.id === origin ? `visual-${p.id}` : undefined} className="relative aspect-[16/9] max-h-[68vh] w-full md:aspect-[21/9]">
           <ProjectVisual project={p} />
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#090a11] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white to-transparent" />
         </motion.div>
 
         <div className="mx-auto max-w-6xl px-5 pb-20 sm:px-8">
@@ -149,9 +149,9 @@ function CaseStudy({ p, origin, onClose, onStep }: { p: Project; origin: string;
           {p.images && p.images.length > 0 && (
             <div className="mt-14 grid gap-4 md:grid-cols-3">
               {p.images.map((im, i) => (
-                <motion.figure key={im.src} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease, delay: i * 0.08 }} className="overflow-hidden rounded-2xl border border-white/10">
+                <motion.figure key={im.src} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease, delay: i * 0.08 }} className="overflow-hidden rounded-2xl border border-ink/[0.09]">
                   <img src={im.src} alt={im.alt} loading="lazy" decoding="async" className="w-full transition-transform duration-700 hover:scale-[1.04]" />
-                  <figcaption className="border-t border-white/10 px-4 py-2.5 text-[12.5px] text-mist">{im.alt}</figcaption>
+                  <figcaption className="border-t border-ink/[0.09] px-4 py-2.5 text-[12.5px] text-mist">{im.alt}</figcaption>
                 </motion.figure>
               ))}
             </div>
@@ -160,7 +160,7 @@ function CaseStudy({ p, origin, onClose, onStep }: { p: Project; origin: string;
           {p.links && (
             <div className="mt-10 flex flex-wrap gap-3">
               {p.links.map(l => (
-                <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-[14px] transition-colors hover:border-white/40">
+                <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-ink/[0.12] px-5 py-3 text-[14px] transition-colors hover:border-ink/25">
                   {l.label} <span aria-hidden>↗</span>
                 </a>
               ))}
@@ -225,7 +225,7 @@ export function Projects() {
           </motion.div>
           <div className="section-pad mx-auto mb-6 flex w-full max-w-7xl items-center gap-4" aria-hidden>
             <span className="font-mono text-[11px] text-dim">01</span>
-            <div className="relative h-px flex-1 bg-white/10"><motion.div className="absolute inset-0 origin-left bg-gradient-to-r from-cyan via-iris to-orchid" style={{ scaleX: bar }} /></div>
+            <div className="relative h-px flex-1 bg-ink/[0.07]"><motion.div className="absolute inset-0 origin-left bg-gradient-to-r from-cyan via-iris to-orchid" style={{ scaleX: bar }} /></div>
             <span className="font-mono text-[11px] text-dim">{String(projects.length).padStart(2, "0")}</span>
           </div>
         </div>

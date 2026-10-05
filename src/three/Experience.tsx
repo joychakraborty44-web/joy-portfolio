@@ -113,7 +113,7 @@ const particleVert = /* glsl */ `
     float blur = clamp(abs(depth - 8.0) / 6.5, 0.0, 1.0);
     float s = uSize * (0.55 + fract(aSeed * 7.13) * 0.9);
     gl_PointSize = s * uPixelRatio * (1.0 + blur * 2.4) * (10.0 / max(depth, 0.5));
-    vAlpha = mix(0.95, 0.16, blur) * (0.6 + 0.4 * sin(uTime * 1.2 + aSeed * 40.0));
+    vAlpha = mix(0.7, 0.1, blur) * (0.65 + 0.35 * sin(uTime * 1.2 + aSeed * 40.0));
     vSeed = aSeed;
   }
 `;
@@ -124,8 +124,9 @@ const particleFrag = /* glsl */ `
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float a = smoothstep(0.5, 0.0, d);
-    vec3 c = mix(vec3(0.37, 0.92, 0.83), vec3(0.51, 0.55, 0.97), smoothstep(0.0, 0.8, vSeed));
-    c = mix(c, vec3(0.91, 0.47, 0.98), step(0.88, vSeed));
+    // teal → indigo, with a few fuchsia accents — deep enough to read on white
+    vec3 c = mix(vec3(0.05, 0.58, 0.53), vec3(0.35, 0.31, 0.93), smoothstep(0.0, 0.8, vSeed));
+    c = mix(c, vec3(0.75, 0.15, 0.83), step(0.88, vSeed));
     gl_FragColor = vec4(c, a * vAlpha * uOpacity);
   }
 `;
@@ -165,7 +166,7 @@ function Particles({ count }: { count: number }) {
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
     uPixelRatio: { value: Math.min(gl.getPixelRatio(), 2) },
-    uSize: { value: frame.mobile ? 2.6 : 3.1 },
+    uSize: { value: frame.mobile ? 2.4 : 2.8 },
     uOpacity: { value: 1 },
   }), [gl]);
 
@@ -173,7 +174,7 @@ function Particles({ count }: { count: number }) {
     const g = geo.current; if (!g) return;
     const t = state.clock.elapsedTime;
     uniforms.uTime.value = frame.reduced ? 0 : t;
-    uniforms.uOpacity.value += ((1 - phase.dim * 0.6) - uniforms.uOpacity.value) * (frame.reduced ? 1 : 0.08);
+    uniforms.uOpacity.value += ((1 - phase.dim * 0.7) - uniforms.uOpacity.value) * (frame.reduced ? 1 : 0.08);
     const k = frame.reduced ? 1 : 1 - Math.exp(-dt * 2.2);
     const { pos, field, sphere, ring } = data;
     const wf = phase.field, ws = phase.sphere, wr = phase.ring;
@@ -213,7 +214,7 @@ function Particles({ count }: { count: number }) {
         <bufferAttribute attach="attributes-position" args={[data.pos, 3]} />
         <bufferAttribute attach="attributes-aSeed" args={[data.seed, 1]} />
       </bufferGeometry>
-      <shaderMaterial vertexShader={particleVert} fragmentShader={particleFrag} uniforms={uniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+      <shaderMaterial vertexShader={particleVert} fragmentShader={particleFrag} uniforms={uniforms} transparent depthWrite={false} blending={THREE.NormalBlending} />
     </points>
   );
 }
@@ -233,16 +234,20 @@ const coreFrag = /* glsl */ `
   uniform float uTime; uniform float uHover;
   varying vec3 vNormal; varying vec3 vView;
   void main() {
-    float f = pow(1.0 - max(dot(vNormal, vView), 0.0), 2.2);
-    vec3 a = vec3(0.37, 0.92, 0.83), b = vec3(0.51, 0.55, 0.97), c = vec3(0.91, 0.47, 0.98);
-    float band = 0.5 + 0.5 * sin(vNormal.y * 4.0 + uTime * 0.8);
-    vec3 col = mix(mix(a, b, band), c, f * 0.6);
-    float core = 0.10 + 0.06 * sin(uTime * 1.6);
-    gl_FragColor = vec4(col * (f * (1.4 + uHover) + core), 0.92);
+    // pearl: soft lit white body, iridescent rim that shifts over time
+    float f = pow(1.0 - max(dot(vNormal, vView), 0.0), 1.8);
+    vec3 a = vec3(0.03, 0.57, 0.70), b = vec3(0.35, 0.31, 0.93), c = vec3(0.75, 0.15, 0.83);
+    float band = 0.5 + 0.5 * sin(vNormal.y * 3.5 + vNormal.x * 2.0 + uTime * 0.7);
+    vec3 irid = mix(mix(a, b, band), c, f * 0.65);
+    float diff = 0.72 + 0.28 * dot(vNormal, normalize(vec3(-0.35, 0.85, 0.5)));
+    vec3 body = vec3(0.985, 0.986, 1.0) * diff;
+    vec3 col = mix(body, irid, clamp(f * 1.15 + uHover * 0.2, 0.0, 1.0));
+    float spec = pow(max(dot(reflect(-normalize(vec3(-0.4, 0.8, 0.6)), vNormal), vView), 0.0), 24.0);
+    gl_FragColor = vec4(col + spec * 0.35, 0.96);
   }
 `;
 
-const FLOW_COLORS = ["#38bdf8", "#5eead4", "#a78bfa", "#38bdf8", "#818cf8", "#5eead4", "#e879f9", "#fbbf24"];
+const FLOW_COLORS = ["#0284c7", "#0d9488", "#7c3aed", "#0284c7", "#4f46e5", "#0d9488", "#c026d3", "#d97706"];
 
 function HeroSystem() {
   const group = useRef<THREE.Group>(null);
@@ -265,7 +270,7 @@ function HeroSystem() {
   }), []);
   const loopLine = useMemo(() => {
     const pts = Array.from({ length: 129 }, (_, i) => { const a = (i / 128) * Math.PI * 2; return new THREE.Vector3(Math.cos(a) * 1.75, 0, Math.sin(a) * 1.75); });
-    return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: "#5eead4", transparent: true, opacity: 0.22 }));
+    return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: "#0d9488", transparent: true, opacity: 0.4 }));
   }, []);
 
   useFrame((state, dt) => {
@@ -273,7 +278,8 @@ function HeroSystem() {
     const t = frame.reduced ? 0 : state.clock.elapsedTime;
     const h = phase.hero;
     const k = frame.reduced ? 1 : 1 - Math.exp(-dt * 4);
-    const base = frame.mobile ? { x: 0, y: 1.55, z: -2.2, s: 0.62 } : { x: 2.55, y: 0.05, z: -0.4, s: 0.92 };
+    // phones: the core gets its own space above the hero copy
+    const base = frame.mobile ? { x: 0, y: 2.05, z: -2.2, s: 0.6 } : { x: 2.35, y: 0.05, z: -0.5, s: 0.9 };
     g.visible = h < 0.99;
     if (!g.visible) return;
     g.position.set(base.x, base.y + h * 2.6, base.z - h * 1.6);
@@ -307,9 +313,11 @@ function HeroSystem() {
     // floating screens orbit at different depths and explode outward on scroll
     panelRefs.current.forEach((p, i) => {
       if (!p) return;
+      p.visible = !frame.mobile;
+      if (!p.visible) return;
       const ang = (i / PANELS.length) * Math.PI * 2 + 0.6 + t * 0.07;
       // a depth ellipse: narrow in x so the screens stay clear of the hero copy
-      const rx = (frame.mobile ? 2.2 : 1.55) + h * 2.6, rz = 2.5 + h * 1.5;
+      const rx = (frame.mobile ? 2.2 : 1.3) + h * 2.6, rz = 2.5 + h * 1.5;
       const yOff = [1.05, -0.95, 0.4, -0.3][i];
       p.position.set(Math.cos(ang) * rx, yOff + Math.sin(t * 0.8 + i * 1.7) * 0.08 + h * (i % 2 ? -1.2 : 1.2), Math.sin(ang) * rz);
       // face the camera, with a slight lean toward the cursor
@@ -333,14 +341,14 @@ function HeroSystem() {
   return (
     <group ref={group}>
       <sprite scale={[4.2, 4.2, 1]}>
-        <spriteMaterial map={glow} color="#7c83f7" transparent opacity={0.32} depthWrite={false} blending={THREE.AdditiveBlending} />
+        <spriteMaterial map={glow} color="#a5b4fc" transparent opacity={0.42} depthWrite={false} blending={THREE.NormalBlending} />
       </sprite>
       <mesh>
         <icosahedronGeometry args={[0.72, 5]} />
         <shaderMaterial vertexShader={coreVert} fragmentShader={coreFrag} uniforms={coreUniforms} transparent />
       </mesh>
       <lineSegments ref={shell} geometry={shellGeo}>
-        <lineBasicMaterial color="#9aa3ff" transparent opacity={0.28} />
+        <lineBasicMaterial color="#6366f1" transparent opacity={0.3} />
       </lineSegments>
 
       <group ref={loop} rotation={[0.42, 0, 0.12]}>
@@ -352,7 +360,7 @@ function HeroSystem() {
           </mesh>
         ))}
         <sprite ref={pulse} scale={[0.55, 0.55, 1]}>
-          <spriteMaterial map={glow} color="#ffffff" transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <spriteMaterial map={glow} color="#5850ec" transparent opacity={0.85} depthWrite={false} blending={THREE.NormalBlending} />
         </sprite>
       </group>
 
@@ -421,7 +429,7 @@ function SkillsSphere() {
     g.quaternion.slerp(tmpQ, k);
     phase.skillsQuat.copy(g.quaternion);
     g.scale.setScalar(phase.skillsScale * (0.75 + 0.25 * w));
-    if (lines.current) (lines.current.material as THREE.LineBasicMaterial).opacity = 0.32 * w;
+    if (lines.current) (lines.current.material as THREE.LineBasicMaterial).opacity = 0.38 * w;
     nodeRefs.current.forEach((m, i) => {
       if (!m) return;
       const on = skills[i].id === active, hv = skills[i].id === hover;
@@ -431,7 +439,7 @@ function SkillsSphere() {
     });
     if (halo.current) {
       halo.current.position.copy(dirs[idx]).multiplyScalar(2.2);
-      (halo.current.material as THREE.SpriteMaterial).opacity = 0.9 * w;
+      (halo.current.material as THREE.SpriteMaterial).opacity = 0.5 * w;
       const s = 0.9 + Math.sin(t * 2.4) * 0.08;
       halo.current.scale.set(s, s, 1);
     }
@@ -455,10 +463,10 @@ function SkillsSphere() {
   return (
     <group ref={group}>
       <lineSegments ref={lines} geometry={lineGeo}>
-        <lineBasicMaterial color="#8b93ff" transparent opacity={0} />
+        <lineBasicMaterial color="#6366f1" transparent opacity={0} />
       </lineSegments>
       <sprite ref={halo}>
-        <spriteMaterial map={glow} color="#5eead4" transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+        <spriteMaterial map={glow} color="#14b8a6" transparent depthWrite={false} blending={THREE.NormalBlending} />
       </sprite>
       {skills.map((s, i) => (
         <mesh
@@ -470,7 +478,7 @@ function SkillsSphere() {
           onClick={e => { e.stopPropagation(); setUi({ activeSkill: s.id }); }}
         >
           <sphereGeometry args={[0.06, 20, 20]} />
-          <meshBasicMaterial color={s.id === active ? "#5eead4" : "#c7ccff"} transparent toneMapped={false} />
+          <meshBasicMaterial color={s.id === active ? "#0d9488" : "#6366f1"} transparent toneMapped={false} />
         </mesh>
       ))}
     </group>
@@ -499,9 +507,9 @@ function Portal() {
   });
   return (
     <group ref={group}>
-      <mesh ref={a}><torusGeometry args={[3.1, 0.014, 12, 240]} /><meshBasicMaterial color="#5eead4" transparent toneMapped={false} /></mesh>
-      <mesh ref={b}><torusGeometry args={[2.55, 0.01, 12, 240]} /><meshBasicMaterial color="#e879f9" transparent toneMapped={false} /></mesh>
-      <sprite scale={[7, 7, 1]}><spriteMaterial map={glow} color="#6d63f2" transparent opacity={0.22} depthWrite={false} blending={THREE.AdditiveBlending} /></sprite>
+      <mesh ref={a}><torusGeometry args={[3.1, 0.014, 12, 240]} /><meshBasicMaterial color="#0d9488" transparent toneMapped={false} /></mesh>
+      <mesh ref={b}><torusGeometry args={[2.55, 0.01, 12, 240]} /><meshBasicMaterial color="#c026d3" transparent toneMapped={false} /></mesh>
+      <sprite scale={[7, 7, 1]}><spriteMaterial map={glow} color="#c7d2fe" transparent opacity={0.55} depthWrite={false} blending={THREE.NormalBlending} /></sprite>
     </group>
   );
 }
@@ -517,7 +525,7 @@ function SkillLabels() {
           type="button"
           tabIndex={-1}
           onClick={() => setUi({ activeSkill: s.id })}
-          className={`absolute left-0 top-0 whitespace-nowrap rounded-full border px-3 py-1 text-[12.5px] font-medium backdrop-blur-md transition-colors duration-300 ${s.id === active ? "border-cyan/60 bg-cyan/15 text-white" : "border-white/10 bg-black/45 text-mist hover:text-white"}`}
+          className={`absolute left-0 top-0 whitespace-nowrap rounded-full border px-3 py-1 text-[12.5px] font-medium backdrop-blur-md transition-colors duration-300 ${s.id === active ? "border-cyan/40 bg-white text-ink shadow-[0_6px_16px_-6px_rgba(8,126,136,0.45)]" : "border-ink/10 bg-white/85 text-mist shadow-sm hover:text-ink"}`}
           style={{ opacity: 0 }}
         >
           {s.short}
@@ -545,7 +553,7 @@ export default function Experience() {
     >
       <Director />
       <CameraRig />
-      <Particles count={mobile ? 1100 : 2600} />
+      <Particles count={mobile ? 900 : 2100} />
       <HeroSystem />
       <SkillsSphere />
       <Portal />

@@ -143,7 +143,7 @@ export function TiltCard({ children, className, max = 10, style, glare = true }:
 }
 
 export function Glare({ x, y }: { x: MotionValue<string>; y: MotionValue<string> }) {
-  const bg = useTransform([x, y] as MotionValue<string>[], ([gx, gy]) => `radial-gradient(420px circle at ${gx} ${gy}, rgba(255,255,255,0.10), transparent 55%)`);
+  const bg = useTransform([x, y] as MotionValue<string>[], ([gx, gy]) => `radial-gradient(420px circle at ${gx} ${gy}, rgba(88,80,236,0.07), transparent 55%)`);
   return <motion.div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit]" style={{ background: bg }} />;
 }
 
@@ -155,7 +155,7 @@ export function SectionHeading({ index, kicker, title, accent, sub, align = "lef
       <Reveal>
         <p className={`eyebrow flex items-center gap-3 ${align === "center" ? "justify-center" : ""}`}>
           <span className="text-cyan">{index}</span>
-          <span className="h-px w-8 bg-white/20" />
+          <span className="h-px w-8 bg-ink/[0.12]" />
           {kicker}
         </p>
       </Reveal>
