@@ -447,7 +447,8 @@ function SkillsSphere() {
     labelEls.forEach((el, i) => {
       if (!el) return;
       const m = nodeRefs.current[i];
-      if (!m || w < 0.02) { el.style.opacity = "0"; el.style.pointerEvents = "none"; return; }
+      // single-column layouts put the panel over the sphere, so the tabs carry the labels
+      if (!m || w < 0.02 || size.width < 1024) { el.style.opacity = "0"; el.style.pointerEvents = "none"; return; }
       m.getWorldPosition(world);
       const facing = world.z - g.position.z; // nodes on the far side of the sphere fade back
       world.project(camera);

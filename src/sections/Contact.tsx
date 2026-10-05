@@ -118,7 +118,7 @@ function Footer() {
       <div className="hairline" />
       <div className="overflow-hidden pt-10">
         <motion.p
-          className="select-none whitespace-nowrap text-[clamp(3.2rem,13vw,12rem)] font-semibold leading-[0.85] tracking-[-0.06em] text-ink/[0.05]"
+          className="select-none whitespace-nowrap text-[clamp(2.2rem,9.2vw,9rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-ink/[0.06]"
           initial={{ y: "60%" }} whileInView={{ y: "0%" }} viewport={{ once: true }} transition={{ duration: 1.2, ease }}
           aria-hidden
         >

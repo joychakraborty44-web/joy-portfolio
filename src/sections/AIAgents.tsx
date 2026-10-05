@@ -18,7 +18,7 @@ function Flow({ work }: { work: AgentWork }) {
   const n = work.flow.length;
   return (
     <div className="relative">
-      <ol className="relative grid gap-3 sm:gap-0" style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
+      <ol className="relative grid grid-cols-1 gap-3 sm:grid-cols-[repeat(var(--cols),minmax(0,1fr))] sm:gap-0" style={{ ["--cols" as string]: n }}>
         <span aria-hidden className="absolute left-[8%] right-[8%] top-[22px] hidden h-px bg-ink/[0.07] sm:block" />
         {!reduced && (
           <motion.span

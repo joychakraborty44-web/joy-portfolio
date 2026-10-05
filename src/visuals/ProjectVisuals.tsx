@@ -119,13 +119,13 @@ function CampaignData({ project, count, color }: { project: Project; count: numb
   const metrics = project.metrics ?? [];
   return (
     <>
-      <Layer depth={8} className="inset-[auto_5%_8%_5%] h-[42%]">
-        <div className="flex h-full items-end gap-[2px]">
+      <Layer depth={8} className="inset-[auto_5%_10%_5%] flex h-[44%] flex-col">
+        <p className="mb-1.5 font-mono text-[clamp(7px,0.75vw,10px)] text-mist">{count} non-zero campaigns · bar heights illustrative</p>
+        <div className="flex min-h-0 flex-1 items-end gap-[2px]">
           {Array.from({ length: count }).map((_, i) => (
             <div key={i} className="flex-1 rounded-t-sm" style={{ height: `${12 + rand(i + count) * 88}%`, background: `linear-gradient(to top, ${color}22, ${color})`, opacity: 0.85 }} />
           ))}
         </div>
-        <p className="mt-1 font-mono text-[clamp(6px,0.7vw,9px)] text-dim">{count} non-zero campaigns · bar heights illustrative</p>
       </Layer>
       <Layer depth={28} className="inset-[8%_5%_auto_5%] grid gap-[3%]" style={{ gridTemplateColumns: `repeat(${metrics.length}, minmax(0,1fr))` }}>
         {metrics.map(m => (
